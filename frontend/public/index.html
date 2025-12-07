@@ -2,50 +2,324 @@
 <html>
 <head>
     <title>Microservice App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        form { margin-bottom: 20px; }
-        input { margin: 5px; padding: 8px; }
-        button { padding: 8px 16px; }
-        .user { padding: 10px; border: 1px solid #ccc; margin: 5px 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .form-section {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #e1e5f2;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-title::before {
+            content: "👤";
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e1e5f2;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .users-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "📋";
+            margin-right: 10px;
+        }
+
+        .user-card {
+            background: white;
+            border: 1px solid #e1e5f2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #4facfe;
+        }
+
+        .user-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .user-id {
+            background: #4facfe;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state::before {
+            content: "👥";
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #4facfe;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .form-group {
+                flex-direction: column;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>User Management</h1>
-    
-    <form id="userForm">
-        <input type="text" id="name" placeholder="Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <button type="submit">Add User</button>
-    </form>
-    
-    <h2>Users</h2>
-    <div id="users"></div>
+    <div class="container">
+        <div class="header">
+            <h1>User Management</h1>
+            <p>Modern Microservice Application</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <h2 class="form-title">Add New User</h2>
+                <form id="userForm">
+                    <div class="form-group">
+                        <input type="text" id="name" class="input-field" placeholder="Enter full name" required>
+                        <input type="email" id="email" class="input-field" placeholder="Enter email address" required>
+                        <button type="submit" class="btn">Add User</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="users-section">
+                <h2 class="section-title">Users List</h2>
+                <div id="users"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
+        let isLoading = false;
+
         async function loadUsers() {
-            const response = await fetch('/users');
-            const users = await response.json();
-            document.getElementById('users').innerHTML = users.map(user => 
-                `<div class="user">ID: ${user.id}, Name: ${user.name}, Email: ${user.email}</div>`
-            ).join('');
+            if (isLoading) return;
+            isLoading = true;
+            
+            const usersContainer = document.getElementById('users');
+            usersContainer.innerHTML = '<div class="loading">Loading users...</div>';
+            
+            try {
+                const response = await fetch('/users');
+                const users = await response.json();
+                
+                if (users.length === 0) {
+                    usersContainer.innerHTML = '<div class="empty-state">No users found. Add your first user above!</div>';
+                } else {
+                    usersContainer.innerHTML = users.map(user => `
+                        <div class="user-card">
+                            <div class="user-id">ID: ${user.id}</div>
+                            <div class="user-name">${user.name}</div>
+                            <div class="user-email">${user.email}</div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                usersContainer.innerHTML = '<div class="empty-state">Error loading users. Please try again.</div>';
+            } finally {
+                isLoading = false;
+            }
         }
 
         document.getElementById('userForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
             
-            await fetch('/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email })
-            });
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const submitBtn = e.target.querySelector('.btn');
             
-            document.getElementById('userForm').reset();
-            loadUsers();
+            if (!name || !email) return;
+            
+            submitBtn.textContent = 'Adding...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email })
+                });
+                
+                if (response.ok) {
+                    document.getElementById('userForm').reset();
+                    await loadUsers();
+                }
+            } catch (error) {
+                console.error('Error adding user:', error);
+            } finally {
+                submitBtn.textContent = 'Add User';
+                submitBtn.disabled = false;
+            }
         });
 
+        // Load users on page load
         loadUsers();
     </script>
 </body>

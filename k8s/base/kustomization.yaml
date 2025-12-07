@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- mysql.yaml
+- backend.yaml
+- frontend.yaml
+
+commonLabels:
+  app.kubernetes.io/name: microservice-app
+  app.kubernetes.io/version: v1.0.0
+
+namespace: default

@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: prod
+
+resources:
+- ../../base
+
+commonLabels:
+  environment: prod
+
+replicas:
+- name: backend
+  count: 3
+- name: frontend
+  count: 3
+
+images:
+- name: microservice-app-backend
+  newTag: prod-latest
+- name: microservice-app-frontend
+  newTag: prod-latest
+
+patchesStrategicMerge:
+- resources.yaml
+- hpa.yaml
