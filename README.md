@@ -1,4 +1,4 @@
-# Node.js Microservice Application
+# Node.js Microservice Application Dev env
 
 A simple 2-tier microservice application with:
 - Frontend service (port 3000)
