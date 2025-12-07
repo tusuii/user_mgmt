@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microservice App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        form { margin-bottom: 20px; }
+        input { margin: 5px; padding: 8px; }
+        button { padding: 8px 16px; }
+        .user { padding: 10px; border: 1px solid #ccc; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>User Management</h1>
+    
+    <form id="userForm">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button type="submit">Add User</button>
+    </form>
+    
+    <h2>Users</h2>
+    <div id="users"></div>
+
+    <script>
+        async function loadUsers() {
+            const response = await fetch('/users');
+            const users = await response.json();
+            document.getElementById('users').innerHTML = users.map(user => 
+                `<div class="user">ID: ${user.id}, Name: ${user.name}, Email: ${user.email}</div>`
+            ).join('');
+        }
+
+        document.getElementById('userForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            
+            await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email })
+            });
+            
+            document.getElementById('userForm').reset();
+            loadUsers();
+        });
+
+        loadUsers();
+    </script>
+</body>
+</html>
