@@ -1,4 +1,4 @@
-# Node.js Microservice Application stg env
+# Node.js Microservice Application prod env
 
 A simple 2-tier microservice application with:
 - Frontend service (port 3000)
